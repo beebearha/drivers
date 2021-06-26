@@ -1038,13 +1038,13 @@ class Company(LinkedIn):
     def get_info(self, company_url):
         req_url = f"{LINKEDIN_API}/company/getInfo?company_url={company_url}"
         headers = {"Content-Type": "application/json"}
-        res = requests.post(req_url, json=self.cookies, headers=headers)
+        res = requests.post(req_url, json=self.cookies, headers=self.headers)
         try:
             res.raise_for_status()
-        except requests.HTTPError:
-            res_json = {}
+        except requests.HTTPError as e:
+            return e
         else:
             res_json = res.json()
-#        df = pd.DataFrame(res_json)
-#        return df.reset_index(drop=True)
-        return res_json
+        for index in res_json.keys():
+            res_json[index] = [res_json[index]]
+        return pd.DataFrame(res_json).reset_index(drop=True)
