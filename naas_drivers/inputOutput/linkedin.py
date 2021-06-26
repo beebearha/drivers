@@ -1034,3 +1034,17 @@ class Company(LinkedIn):
         LinkedIn.__init__(self)
         self.cookies = cookies
         self.headers = headers
+
+    def get_info(self, company_url):
+        req_url = f"{LINKEDIN_API}/company/getInfo?company_url={company_url}"
+        headers = {"Content-Type": "application/json"}
+        res = requests.post(req_url, json=self.cookies, headers=headers)
+        try:
+            res.raise_for_status()
+        except requests.HTTPError:
+            res_json = {}
+        else:
+            res_json = res.json()
+#        df = pd.DataFrame(res_json)
+#        return df.reset_index(drop=True)
+        return res_json
