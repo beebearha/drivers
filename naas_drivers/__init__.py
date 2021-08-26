@@ -62,7 +62,7 @@ markdown = Markdown()
 teams = Teams()
 slack = Slack()
 qonto = Qonto()
-nlp = HuggingfaceDriver()
+huggingface = HuggingfaceDriver()
 
 # Out drivers
 bubble = Bubble()
